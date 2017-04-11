@@ -32,6 +32,34 @@ GameData.prototype.patch = function(generals, map_diff, cities_diff) {
     this.cities = patch(this.cities, cities_diff);
 };
 
+// Indexes and Moves
+
+GameData.prototype.row = function(index) {
+    return  Math.floor(index / this.width);
+};
+
+GameData.prototype.col = function(index) {
+    return  index % this.width;
+};
+
+GameData.prototype.left = function(index) {
+    return ( this.col(index) > 0) && (index-1);
+};
+
+GameData.prototype.right = function(index) {
+    return ( this.col(index) < (this.width - 1)) && (index+1);
+};
+
+GameData.prototype.up = function(index) {
+    return ( this.row(index) > 0) && (index-this.width);
+};
+
+GameData.prototype.down = function(index) {
+    return ( this.row(index) < (this.height - 1)) && (index+this.width);
+};
+
+
+// Predicates
 GameData.prototype.isOurs = function(index) {
     return this.terrain[index] === this.playerIndex;
 };

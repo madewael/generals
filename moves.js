@@ -9,25 +9,17 @@ function randomMove(gameData, socket) {
 
         // If we own this tile, make a random move starting from it.
         if (gameData.isOurs(index)) {
-            var row = Math.floor(index / gameData.width);
-            var col = index % gameData.width;
-            var endIndex = index;
+            var endIndex = false;
 
             var rand = Math.random();
-            if (rand < 0.25 && col > 0) { // left
-                endIndex--;
-            } else if (rand < 0.5 && col < gameData.width - 1) { // right
-                endIndex++;
-            } else if (rand < 0.75 && row < gameData.height - 1) { // down
-                endIndex += gameData.width;
-            } else if (row > 0) { //up
-                endIndex -= gameData.width;
-            } else {
-                continue;
+            if (rand < 0.25 ) { endIndex = gameData.left(index);
+            } else if (rand < 0.5 ) { endIndex = gameData.right(index);
+            } else if (rand < 0.75 ) { endIndex = gameData.down(index);
+            } else  { endIndex = gameData.up(index);
             }
 
             // Would we be attacking a city? Don't attack cities.
-            if (gameData.isCity(endIndex)) {
+            if (!endIndex || gameData.isCity(endIndex)) {
                 continue;
             }
 
